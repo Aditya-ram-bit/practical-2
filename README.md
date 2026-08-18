@@ -1,9 +1,10 @@
-# Practical 2: Single Neuron Model using TensorFlow/Keras
+ Practical 2: Single Neuron Model using TensorFlow/Keras
 
-## Aim
+ Aim
 To implement a small neural network (single hidden layer + output neuron) using TensorFlow/Keras and train it to classify PTAL (Public Transport Accessibility Level) as **Good** or **Poor**, based on walk time to nearest stop and service frequency.
 
-## Theory
+
+ Theory
 
 Practical 1 used a hand-coded **Perceptron** with a hard step activation and a manual weight-update rule — that only works because AND / the PTAL toy pattern is **linearly separable**. Real-world problems are rarely that clean, so this practical moves to a proper neural network built with a deep learning framework.
 
@@ -32,13 +33,13 @@ Practical 1 used a hand-coded **Perceptron** with a hard step activation and a m
 This is the bridge from a rule-based linear classifier to the gradient-based, non-linear building blocks (hidden layers, activations, backprop) used in modern deep learning.
 
 
-# 2. Single Neuron Model using TensorFlow/Keras
-# Domain: PTAL accessibility classification (Good=1 / Poor=0)
+ 2. Single Neuron Model using TensorFlow/Keras
+ Domain: PTAL accessibility classification (Good=1 / Poor=0)
 import tensorflow as tf
 import numpy as np
 
-# Dataset: [walk_time_min (normalized), service_freq_per_hr (normalized)]
-# Label 1 = Good PTAL accessibility, 0 = Poor accessibility
+ Dataset: [walk_time_min (normalized), service_freq_per_hr (normalized)]
+ Label 1 = Good PTAL accessibility, 0 = Poor accessibility
 X = np.array([
     [0.1, 0.9],
     [0.2, 0.8],
@@ -49,16 +50,16 @@ X = np.array([
 ], dtype=np.float32)
 y = np.array([[1], [1], [0], [0], [1], [0]], dtype=np.float32)
 
-# Build the model
+ Build the model
 model = tf.keras.Sequential([
     tf.keras.layers.Dense(4, input_dim=2, activation='relu'),  # Hidden layer
     tf.keras.layers.Dense(1, activation='sigmoid')              # Output layer
 ])
 
-# Compile the model
+ Compile the model
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-# Predictions before training
+ Predictions before training
 labels = {0: 'Poor Access', 1: 'Good Access'}
 untrained_predictions = model.predict(X)
 print("Before training:")
@@ -66,10 +67,10 @@ for i, pred in enumerate(untrained_predictions):
     cls = int(pred >= 0.5)
     print(f"Input: {X[i]} => Predicted: {round(float(pred), 4)} => {labels[cls]}")
 
-# Train the model
+ Train the model
 model.fit(X, y, epochs=10, verbose=2)
 
-# Predictions after training
+ Predictions after training
 predictions = model.predict(X)
 print("\nAfter training:")
 for i, pred in enumerate(predictions):
